@@ -1,6 +1,7 @@
 #include"List.h"
 #include<stdio.h>
 #include<stdlib.h>
+#include<windows.h>
 Node* Head = (Node*)malloc(sizeof(Node));
 Node* Tail = (Node*)malloc(sizeof(Node));
 Node* Temp = NULL;
@@ -10,33 +11,54 @@ void Init() {
 	Tail->next = NULL;
 	Tail->data = NULL;
 }
+void DelBetween() {
+	int index = 0;
+	int i = 0;
+
+	if (Head->next != Tail) {
+		printf("삭제할 위치 : ");
+		scanf_s("%d", &index);
+	}
+	else {
+		printf("\n\n사이에추가할데이터없음\n\n\n");
+		system("pause");
+	}
+}
 void DelFirst() {
 	if (Head->next != Tail) {
 		Temp1 = Head->next;
 		Head->next = Head->next->next;
-		printf("%p\n", Temp1->next);
-		printf("%p\n,", Temp1);
 		free(Temp1);
-		//printf("%p\n", Temp1->next);
-		printf("%p\n,", Temp1);
 		printf("\n\n맨앞삭제완료\n\n\n");
 		system("pause");
 	}
 	else {
-		system("cls");
-		printf("\n\n");
-		puts("삭제할거없음");
-		printf("\n\n");
+		puts("\n\n삭제할거없음\n\n\n");
 		system("pause");
 	}
 
 }
 void DelLast() {
+	
 	if (Head->next != Tail) {
-
-	}
-	else {
-		puts("삭제할거없음");
+		Temp = Head;
+		while (1) {
+			if (Temp->next->next == Tail) {
+				Temp1 = Temp->next;
+				Temp->next = Tail;
+				free(Temp1);
+				puts("\n\n맨뒤삭제완료\n\n\n");
+				system("pause");
+				break;
+			}
+			else {
+				Temp = Temp->next;
+			}
+		}
+		
+	}else {
+		puts("\n\n삭제할거없음\n\n\n");
+		system("pause");
 	}
 }
 void AddBetween() {
@@ -51,7 +73,7 @@ void AddBetween() {
 		scanf_s("%d", &index);
 	}
 	else {
-		printf("\n\n사이에추가할데이터없음\n \n");
+		printf("\n\n사이에추가할데이터없음\n\n\n");
 		system("pause");
 	}
 
@@ -67,6 +89,9 @@ void AddBetween() {
 			Temp = Temp->next;
 			i++;
 		}
+		printf("\n\n%d 추가완료\n\n\n", Number);
+		printf("\n\n%d 추가완료\n\n\n", Number);
+		system("pause");
 	}
 
 }
@@ -81,6 +106,9 @@ void AddFirst() {
 		Temp = Head->next;
 		Head->next = NewNode;
 		NewNode->next = Temp;
+		
+		printf("\n\n%d 추가완료\n\n\n", Number);
+		system("pause");
 	}
 }
 void AddLast() {
@@ -97,6 +125,9 @@ void AddLast() {
 		}
 		Temp->next = NewNode;
 		NewNode->next = Tail;
+
+		printf("\n\n%d 추가완료\n\n\n", Number);
+		system("pause");
 	}
 }
 void Print() {
@@ -155,7 +186,7 @@ void Start() {
 			scanf_s("%d", &n);
 			switch (n) {
 			case 1: DelFirst(); break;
-			case 2:
+			case 2: DelLast(); break;
 			case 3:
 			case 4: exit(0);
 			default: exit(0);
@@ -171,7 +202,6 @@ void Start() {
 		case 4:
 			exit(0);
 		case 5:
-			printf("%p\n", Temp1->next);
 			system("pause");
 			break;
 		default:
