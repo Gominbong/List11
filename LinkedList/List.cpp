@@ -11,19 +11,44 @@ void Init() {
 	Tail->next = NULL;
 	Tail->data = NULL;
 }
+
 void DelBetween() {
 	int index = 0;
 	int i = 0;
-
 	if (Head->next != Tail) {
 		printf("삭제할 위치 : ");
 		scanf_s("%d", &index);
-	}
-	else {
-		printf("\n\n사이에추가할데이터없음\n\n\n");
-		system("pause");
+		if (Head->next != Tail) {
+			Temp = Head;
+			while (Temp->next != Tail) { 
+				if (Temp->next->next == Tail) {
+					Temp1 = Temp->next;
+					Temp->next = Tail;
+					printf("\n\n%d번 인덱스 %d   삭제완료\n\n\n", index, Temp1->data);
+					system("pause");
+					free(Temp1);
+					break;
+				}
+				if (i==index) {
+					Temp1 = Temp->next;
+					Temp->next = Temp->next->next;
+					printf("\n\n%d번 인덱스 %d   삭제완료\n\n\n", index, Temp1->data);
+					system("pause");
+					free(Temp1);
+					break;
+				}
+				i++;
+				Temp = Temp->next;
+
+			}
+		}
+		else {
+			printf("\n\n사이에추가할데이터없음\n\n\n");
+			system("pause");
+		}
 	}
 }
+
 void DelFirst() {
 	if (Head->next != Tail) {
 		Temp1 = Head->next;
@@ -165,15 +190,17 @@ void Start() {
 			puts("1. 맨앞추가");
 			puts("2. 사이에추가");
 			puts("3. 맨뒤추가");
-			puts("4. 종료");
+			puts("4. 뒤로가기");
+			puts("5. 종료");
 			printf("번호입력 : ");
 			scanf_s("%d", &n);
 			switch (n) {
 			case 1: AddFirst(); break;
 			case 2: AddBetween(); break;
 			case 3: AddLast(); break;
-			case 4: exit(0);
-			default: exit(0);
+			case 4: break;
+			case 5: exit(0);
+			default: printf("\n1~5사이 입력.\n\n"); system("pause"); continue;
 			}
 			break;
 		case 2:
@@ -181,15 +208,17 @@ void Start() {
 			puts("1. 맨앞삭제");
 			puts("2. 맨뒤삭제");
 			puts("3. 인덱스기준삭제");
-			puts("4. 종료");
+			puts("4. 뒤로가기");
+			puts("5. 종료");
 			printf("번호 입력 : ");
 			scanf_s("%d", &n);
 			switch (n) {
 			case 1: DelFirst(); break;
 			case 2: DelLast(); break;
-			case 3:
-			case 4: exit(0);
-			default: exit(0);
+			case 3: DelBetween(); break;
+			case 4: break;
+			case 5: exit(0);
+			default: printf("\n1~5사이 입력.\n\n"); system("pause"); continue;
 			}
 
 			break;
@@ -201,11 +230,7 @@ void Start() {
 			break;
 		case 4:
 			exit(0);
-		case 5:
-			system("pause");
-			break;
-		default:
-			exit(0);
+		default: printf("\n1~5사이 입력.\n\n"); system("pause"); continue;
 		}
 	}
 
