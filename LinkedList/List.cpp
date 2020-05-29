@@ -6,7 +6,7 @@ Node* Head = (Node*)malloc(sizeof(Node));
 Node* Tail = (Node*)malloc(sizeof(Node));
 Node* Temp = NULL;
 Node* Temp1 = NULL;
-void Init() {
+void InitList() {
 	Head->next = Tail;
 	Tail->next = NULL;
 	Tail->data = NULL;
@@ -170,9 +170,11 @@ void Print() {
 	}
 }
 
-
+void Sort() {
+	
+}
 void Start() {
-	Init();
+	InitList();
 	int n;
 	while (1) {
 		system("cls");
@@ -186,51 +188,67 @@ void Start() {
 
 		switch (n) {
 		case 1:
-			system("cls");
-			puts("1. 맨앞추가");
-			puts("2. 사이에추가");
-			puts("3. 맨뒤추가");
-			puts("4. 뒤로가기");
-			puts("5. 종료");
-			printf("번호입력 : ");
-			scanf_s("%d", &n);
-			switch (n) {
-			case 1: AddFirst(); break;
-			case 2: AddBetween(); break;
-			case 3: AddLast(); break;
-			case 4: break;
-			case 5: exit(0);
-			default: printf("\n1~5사이 입력.\n\n"); system("pause"); continue;
+			while (1) {
+				system("cls");
+				puts("1. 맨앞추가");
+				puts("2. 사이에추가");
+				puts("3. 맨뒤추가");
+				puts("4. 뒤로가기");
+				puts("5. 종료");
+				printf("번호입력 : ");
+				scanf_s("%d", &n);
+				switch (n) {
+				case 1: AddFirst(); break;
+				case 2: AddBetween(); break;
+				case 3: AddLast(); break;
+				case 4: break;
+				case 5: exit(0);
+				default: printf("\n1~5사이 입력.\n\n"); system("pause"); continue;
+				}
+				break;
 			}
 			break;
 		case 2:
-			system("cls");
-			puts("1. 맨앞삭제");
-			puts("2. 맨뒤삭제");
-			puts("3. 인덱스기준삭제");
-			puts("4. 뒤로가기");
-			puts("5. 종료");
-			printf("번호 입력 : ");
-			scanf_s("%d", &n);
-			switch (n) {
-			case 1: DelFirst(); break;
-			case 2: DelLast(); break;
-			case 3: DelBetween(); break;
-			case 4: break;
-			case 5: exit(0);
-			default: printf("\n1~5사이 입력.\n\n"); system("pause"); continue;
+			while (1) {
+				system("cls");
+				puts("1. 맨앞삭제");
+				puts("2. 맨뒤삭제");
+				puts("3. 인덱스기준삭제");
+				puts("4. 뒤로가기");
+				puts("5. 종료");
+				printf("번호 입력 : ");
+				scanf_s("%d", &n);
+				switch (n) {
+				case 1: DelFirst(); break;
+				case 2: DelLast(); break;
+				case 3: DelBetween(); break;
+				case 4: break;
+				case 5: exit(0);
+				default: printf("\n1~5사이 입력.\n\n"); system("pause"); continue;
+				}
+				break;
 			}
-
 			break;
 		case 3:
+			int n;
 			system("cls");
 			Print();
-			printf("\n\n");
+
+			printf("1. 선택 정렬 2. 삽입 정렬 3. 버블 정렬 4. 병합 정렬 5. 퀵 정렬\n 6. 뒤로가기\n\n");
+			scanf_s("%d", &n);
+			switch (n) {
+			case 1:
+			case 2:
+			case 3:
+			case 4:
+			case 5:
+			case 6:
+			default: break;
+			}
 			system("pause");
 			break;
-		case 4:
-			exit(0);
-		default: printf("\n1~5사이 입력.\n\n"); system("pause"); continue;
+		case 4: exit(0);
+		default: printf("\n1~4사이 입력.\n\n"); system("pause"); continue;
 		}
 	}
 
