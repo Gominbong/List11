@@ -2,10 +2,12 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<windows.h>
+#include<conio.h>
 Node* Head = (Node*)malloc(sizeof(Node));
 Node* Tail = (Node*)malloc(sizeof(Node));
 Node* Temp = NULL;
 Node* Temp1 = NULL;
+
 void InitList() {
 	Head->next = Tail;
 	Tail->next = NULL;
@@ -39,12 +41,11 @@ void DelBetween() {
 				}
 				i++;
 				Temp = Temp->next;
-
 			}
 		}
 		else {
 			printf("\n\n사이에추가할데이터없음\n\n\n");
-			system("pause");
+			system("pause"); return;
 		}
 	}
 }
@@ -55,11 +56,11 @@ void DelFirst() {
 		Head->next = Head->next->next;
 		free(Temp1);
 		printf("\n\n맨앞삭제완료\n\n\n");
-		system("pause");
+		system("pause"); 
 	}
 	else {
 		puts("\n\n삭제할거없음\n\n\n");
-		system("pause");
+		system("pause"); return;
 	}
 
 }
@@ -83,7 +84,7 @@ void DelLast() {
 		
 	}else {
 		puts("\n\n삭제할거없음\n\n\n");
-		system("pause");
+		system("pause"); return;
 	}
 }
 void AddBetween() {
@@ -99,7 +100,7 @@ void AddBetween() {
 	}
 	else {
 		printf("\n\n사이에추가할데이터없음\n\n\n");
-		system("pause");
+		system("pause"); return;
 	}
 
 	Node* NewNode = (Node*)malloc(sizeof(Node));
@@ -155,35 +156,80 @@ void AddLast() {
 		system("pause");
 	}
 }
+void SelectSort(int size) {
+
+	Node* MinNode;
+	Node* NextNode = Head->next;
+
+	int index = 0;
+	printf("\n\n");
+
+	for (int i = 0; i < size - 1; i++) {
+		MinNode = NextNode;
+		NextNode = NextNode->next;
+		for (int j = i + 1; j < size; j++) {
+			if (MinNode->data > NextNode->data) {
+				MinNode = NextNode;
+			}
+		}
+		int tmp;
+		tmp = MinNode->data;
+		MinNode->data = Head_Select_Sort->next->data;
+		Head_Select_Sort->next->data = tmp;
+
+		Head_Select_Sort = Head_Select_Sort->next;
+	}
+	while (Head_Select_Sort->next) {
+		printf("%d번index:%d\t", index, Head_Select_Sort->data);
+		Head_Select_Sort = Head_Select_Sort->next;
+		index++;
+	}
+	
+	system("pause");
+	printf("\n");
+}
 void Print() {
 	if (Head->next == Tail) {
-		printf("\n\n입력된 데이터 없음\n");
+		printf("\n\n입력된 데이터 없음\n\n\n");
+		
+		system("pause"); return;
 	}
+	int size =sizeof(Node);
+	size = size / size;
 	int index = 0;
 	Temp = Head;
 	while (Temp->next != Tail) {
-
+		size = size + 1;
 		printf("%d번index:%d\t", index, Temp->next->data);
 		Temp = Temp->next;
 		index++;
 		if (index % 7 == 0) printf("\n");
 	}
-}
-
-void Sort() {
-	
+	--size; 
+	int n;
+	printf("\n\n\n\n\n1. 뒤로가기 2. 선택 정렬 3. 삽입 정렬 4. 버블 정렬 5. 병합 정렬 6. 퀵 정렬 \n\n");
+	scanf_s("%d", &n);
+		switch (n) {
+		case 1:  break;
+		case 2: SelectSort(size); break;
+		case 3: break;
+		case 4: break;
+		case 5: break;
+		case 6: break;
+		default: break;
+		}
 }
 void Start() {
 	InitList();
 	int n;
 	while (1) {
 		system("cls");
-		puts("리스트");
+		puts("리스트\n");
 		puts("1. 추가 ");
 		puts("2. 삭제");
 		puts("3. 출력");
 		puts("4. 종료 ");
-		printf("번호 입력 : ");
+		printf("\n\n번호 입력 : ");
 		scanf_s("%d", &n);
 
 		switch (n) {
@@ -195,7 +241,7 @@ void Start() {
 				puts("3. 맨뒤추가");
 				puts("4. 뒤로가기");
 				puts("5. 종료");
-				printf("번호입력 : ");
+				printf("\n\n번호입력 : ");
 				scanf_s("%d", &n);
 				switch (n) {
 				case 1: AddFirst(); break;
@@ -233,24 +279,9 @@ void Start() {
 			int n;
 			system("cls");
 			Print();
-
-			printf("1. 선택 정렬 2. 삽입 정렬 3. 버블 정렬 4. 병합 정렬 5. 퀵 정렬\n 6. 뒤로가기\n\n");
-			scanf_s("%d", &n);
-			switch (n) {
-			case 1:
-			case 2:
-			case 3:
-			case 4:
-			case 5:
-			case 6:
-			default: break;
-			}
-			system("pause");
 			break;
 		case 4: exit(0);
 		default: printf("\n1~4사이 입력.\n\n"); system("pause"); continue;
 		}
 	}
-
-
 }
