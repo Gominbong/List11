@@ -157,34 +157,33 @@ void AddLast() {
 	}
 }
 void SelectSort(int size) {
-
 	Node* MinNode;
-	Node* NextNode = Head->next;
+	Node* NextNode;
+	Node* Temp3;
+	Node* Temp4 = Head;
 
 	int index = 0;
 	printf("\n\n");
 
 	for (int i = 0; i < size - 1; i++) {
-		MinNode = NextNode;
-		NextNode = NextNode->next;
+		MinNode = Temp4->next;
+		NextNode = Temp4->next->next;
 		for (int j = i + 1; j < size; j++) {
 			if (MinNode->data > NextNode->data) {
-				MinNode = NextNode;
+				Temp3 = NextNode;
+				NextNode = MinNode;
+				MinNode = Temp3;
 			}
-		}
-		int tmp;
-		tmp = MinNode->data;
-		MinNode->data = Head_Select_Sort->next->data;
-		Head_Select_Sort->next->data = tmp;
 
-		Head_Select_Sort = Head_Select_Sort->next;
+		}
+	
 	}
+
 	while (Head_Select_Sort->next) {
 		printf("%d¹øindex:%d\t", index, Head_Select_Sort->data);
 		Head_Select_Sort = Head_Select_Sort->next;
 		index++;
 	}
-	
 	system("pause");
 	printf("\n");
 }
