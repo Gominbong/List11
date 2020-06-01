@@ -7,7 +7,7 @@ Node* Head = (Node*)malloc(sizeof(Node));
 Node* Tail = (Node*)malloc(sizeof(Node));
 Node* Temp = NULL;
 Node* Temp1 = NULL;
-
+int a = 50;
 void InitList() {
 	Head->next = Tail;
 	Tail->next = NULL;
@@ -157,33 +157,45 @@ void AddLast() {
 	}
 }
 void SelectSort(int size) {
-	Node* MinNode;
+	Node* MinNode = Head;
 	Node* NextNode;
-	Node* Temp3;
-	Node* Temp4 = Head;
+	Node* Temp6;
+	Node* Temp7;
+	Node* Head_1 = (Node*)malloc(sizeof(Node)); Head_1->data = NULL; Head_1->next = NULL;
+	Node* Tail_1 = (Node*)malloc(sizeof(Node)); Tail_1->data = NULL; Tail_1->next = NULL;
+	Head_1->next = Tail_1;
 
 	int index = 0;
 	printf("\n\n");
 
 	for (int i = 0; i < size - 1; i++) {
-		MinNode = Temp4->next;
-		NextNode = Temp4->next->next;
+		MinNode = MinNode->next;
+		NextNode = MinNode->next;
+		Temp7 = MinNode;
 		for (int j = i + 1; j < size; j++) {
 			if (MinNode->data > NextNode->data) {
-				Temp3 = NextNode;
-				NextNode = MinNode;
-				MinNode = Temp3;
+				MinNode = NextNode;
 			}
-
+			NextNode = NextNode->next;
 		}
-	
+		Temp7 = MinNode;
+
+		Temp6 = Head_1;
+		while (Temp6->next != Tail_1) {
+			Temp6 = Temp6->next;
+		}
+		Temp6->next = MinNode;
+		MinNode->next = Tail;
+
+		
 	}
 
-	while (Head_Select_Sort->next) {
-		printf("%d¹øindex:%d\t", index, Head_Select_Sort->data);
-		Head_Select_Sort = Head_Select_Sort->next;
-		index++;
+	Temp6 = Head_1;
+	while (Temp6->next != NULL) {
+		printf("%d", Temp6->next->data);
+		Temp6 = Temp6->next;
 	}
+
 	system("pause");
 	printf("\n");
 }
