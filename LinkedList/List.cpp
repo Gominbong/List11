@@ -156,6 +156,65 @@ void AddLast() {
 		system("pause");
 	}
 }
+void InsertSort(int size) {
+	Node* cur = Head->next;
+	Node* insert;
+	int Swap;
+	while(!cur->next==NULL){
+		insert = Head->next;
+		while (1) {
+
+			if (insert== cur) {
+				break;
+			}
+
+			if (insert->data > cur-> data) {
+				Swap = insert->data;
+				insert->data = cur->data;
+				cur->data = Swap;
+			}
+			insert = insert->next;
+		}
+		cur = cur->next;
+	
+	}
+
+	printf("\n\n");
+	while (Temp->next!=Tail) {
+		printf("%d\n", Temp->next->data);
+		Temp = Temp->next;
+	}
+
+	system("pause");
+	printf("\n");
+}
+void BubbleSort(int size) {
+	int Swap;
+	Node* jNode;
+	int index = 0;
+	printf("\n\n");
+
+	for (int i = 0; i < size - 1; i++) {
+		jNode = Head->next;
+		for (int j = 0; j < size - (i + 1); j++) {
+			if (jNode->data > jNode->next->data) {
+				Swap = jNode->data;
+				jNode->data = jNode->next->data;
+				jNode->next->data = Swap;
+			}
+			jNode = jNode->next;
+		}
+	}
+	Temp = Head;
+	while (Temp->next != Tail) {
+		printf("%d¹øindex:%d\t", index, Temp->next->data);
+		Temp = Temp->next;
+		index++;
+		if (index % 7 == 0) printf("\n");
+	}
+	system("pause");
+	printf("\n");
+}
 void SelectSort(int size) {
 	Node* KeyNode=Head->next;
 	Node* NextNode;
@@ -213,8 +272,8 @@ void Print() {
 		switch (n) {
 		case 1:  break;
 		case 2: SelectSort(size); break;
-		case 3: break;
-		case 4: break;
+		case 3: InsertSort(size);  break;
+		case 4: BubbleSort(size); break;
 		case 5: break;
 		case 6: break;
 		default: break;
