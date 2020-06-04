@@ -1,8 +1,7 @@
-#include<stdio.h>
-#include<stdlib.h>
+#include"Stack.h"
 #include"List.h"
-void Start3();
+
 int main(void) {
-	Start();
-	//Start2();
+	//Start();
+	Start1();
 }
