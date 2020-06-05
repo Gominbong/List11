@@ -1,23 +1,29 @@
 #include"Stack.h"
 #include<stdlib.h>
 #include<stdio.h>
+#include<string.h>
 void InitStack(Stack* stack) {
 	stack->top = NULL;
+	stack->tail = NULL;
 }
 
 int IsEmpty(Stack* stack) {
 	return stack->top == NULL;
 }
 
-void Push(Stack* stack, int data) {
-	Node_stack* NewNode = (Node_stack*)malloc(sizeof(Node_stack));
-	NewNode->data = data;
-	NewNode->next = stack->top;
-	stack->top = NewNode;
+void Push(Stack* stack, Node_stack* newNode) {
+	if (stack->top == NULL) {
+		stack->top = newNode;
+	}
+	else {
+		stack->tail->next = newNode;
+	}
+	stack->tail = newNode;
+	
 }
 
 int Pop(Stack* stack) {
-	int data;
+	char data;
 	Node_stack* Temp;
 	if (IsEmpty(stack)) {
 		printf("Asd");
@@ -32,22 +38,41 @@ int Pop(Stack* stack) {
 
 }
 
+Node_stack* CreateNode(char* newData) {
+	Node_stack* newNode = (Node_stack*)malloc(sizeof(Node_stack));
+
+	newNode->data = (char*)malloc(sizeof(strlen(newData) + 1));
+	strcpy(newNode->data, newData);
+	newNode->next = NULL;
+
+	return newNode;
+}
+
 
 void Start1() {
 	Stack stack;
 	
 	InitStack(&stack);
 
+	char num[11] = { '0','1','2','3','4','5','6','7','8','9','.', };
+	enum symbol {
+		LEFT_PARENTHESES = '(',
+		RIGHT_PARENTHESES = ')',
+		MULTIPLY = '*',
+		DIVIDE = '/',
+		PLUS = '+',
+		MINUS = '-',
+		SPACE = ' ',
+		OPERAND
+	};
 	while (1) {
-		puts("1. 스택추가 ");
-		puts("2. 스택 ");
-		puts("3. 스택출력 ");
-		puts("4. 종료 : ");
+		printf("계산할 값 입력");
+		
 	}
 
-	Push(&stack,1); 
-	Push(&stack,2);
-	Push(&stack,3);
+	Push(&stack,'1'); 
+	Push(&stack,'2');
+	Push(&stack,'3');
 
 	while (!IsEmpty(&stack)) {
 		printf("asdasd%d", Pop(&stack));
