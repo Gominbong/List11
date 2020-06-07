@@ -11,18 +11,20 @@ int IsEmpty(Stack* stack) {
 	return stack->top == NULL;
 }
 
-void Push(Stack* stack, Node_stack* newNode) {
+void Push(Stack* stack, Node_stack* NewNode) {
 	if (stack->top == NULL) {
-		stack->top = newNode;
+		stack->top = NewNode;
 	}
 	else {
-		stack->tail->next = newNode;
+		stack->tail->next = NewNode;
 	}
-	stack->tail = newNode;
+	stack->tail = NewNode;
 	
 }
-
-int Pop(Stack* stack) {
+Node_stack* Pop(Stack* stack) {
+	Node_stack* PopNode = stack->tail;
+}
+int FreeStack(Stack* stack) {
 	char data;
 	Node_stack* Temp;
 	if (IsEmpty(stack)) {
@@ -38,16 +40,15 @@ int Pop(Stack* stack) {
 
 }
 
-Node_stack* CreateNode(char* newData) {
-	Node_stack* newNode = (Node_stack*)malloc(sizeof(Node_stack));
+Node_stack* CreateNode(char* NewData) {
+	Node_stack* NewNode = (Node_stack*)malloc(sizeof(Node_stack));
 
-	newNode->data = (char*)malloc(sizeof(strlen(newData) + 1));
-	strcpy(newNode->data, newData);
-	newNode->next = NULL;
+	NewNode->data = (char*)malloc(sizeof(strlen(NewData) + 1));
+	strcpy(NewNode->data, NewData);
+	NewNode->next = NULL;
 
-	return newNode;
+	return NewNode;
 }
-
 
 void Start1() {
 	Stack stack;
