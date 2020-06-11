@@ -69,26 +69,26 @@ int WhoPriority(char op1, char op2) {
 		return 0;
 	}
 }
-void Conversion(char exp[]) {
+void PostfixConversion(char exp[]) {
 	Stack stack;
 	int ExpLen = strlen(exp)+1;
 	char* ConvExp = (char*)malloc(ExpLen);
 	
 	int index = 0;
-	char tok, popOp;
+	char comparison, popOp;
 
 	memset(ConvExp, 0, sizeof(char ) * ExpLen);
 	InitStack(&stack);
 
 	for (int i = 0; i < ExpLen; i++) {
-		tok = exp[i];
-		if (isdigit(tok)) {   //저장된값이 숫자면 T
-			ConvExp[index++] = tok;
+		comparison = exp[i];
+		if (isdigit(comparison)) {   //저장된값이 숫자면 T
+			ConvExp[index++] = comparison;
 		}
 		else {
-			switch (tok) {
+			switch (comparison) {
 			case '(':
-				Push(&stack, tok); break;
+				Push(&stack, comparison); break;
 			case ')':
 				while (1) {
 					popOp = Pop(&stack);
@@ -102,12 +102,10 @@ void Conversion(char exp[]) {
 			case '-':
 			case '*':
 			case '/':
-				while (!IsEmpty(&stack) && WhoPriority(Peek(&stack), tok) >= 0) {
+				while (!IsEmpty(&stack) && WhoPriority(Peek(&stack), comparison) >= 0) {
 					ConvExp[index++] = Pop(&stack);
 				}
-				Push(&stack, tok); break;
-				
-
+				Push(&stack, comparison); break;
 			}
 		}
 	}
@@ -116,20 +114,48 @@ void Conversion(char exp[]) {
 	}
 	strcpy(exp, ConvExp);
 	free(ConvExp);
-	
 }
+
+int Calculate(char exp[]){
+	Stack stack;
+	int ExpLen = strlen(exp);
+	char comparison, op1, op2;
+
+	InitStack(&stack);
+
+	for (int i = 0; i < ExpLen; i++) {
+		comparison = exp[i];
+		if (isdigit(comparison)) {
+			Push(&stack, comparison - '0');
+		}
+		else {
+			op2 = Pop(&stack);
+			op1 = Pop(&stack);
+
+			switch (comparison) {
+			case '+':
+				Push(&stack, op1 + op2); break;
+			case '-':
+				Push(&stack, op1 - op2); break;
+			case '*':
+				Push(&stack, op1 * op2); break;
+			case '/':
+				Push(&stack, op1 / op2); break;
+			}
+		}
+	}
+	return Pop(&stack);
+}
+
 void Start1() {
 
-	char exp1[] = "6+7*3";
-	char exp2[] = "6+7*2";
-	char exp3[] = "(1+2)*3";
+	char str[100];
+	while (1) {
+		printf("후위식 바꿀식 : ");
+		fgets(str, sizeof(str), stdin);
+		PostfixConversion(str);
+		printf("후위식 : %s  \n", str);
+		printf("후위식 계산 : %d \n\n\n", Calculate(str));
+	}
 	
-	Conversion(exp1);
-	Conversion(exp2);
-	Conversion(exp3);
-
-	printf("%s\n", exp1);
-	printf("%s\n", exp2);
-	printf("%s\n", exp3);
-
 }
