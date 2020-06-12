@@ -13,7 +13,6 @@ typedef struct node_stack {
 
 typedef struct stack {
 	Node_stack* top;
-	Node_stack* tail;
 }Stack;
 
 

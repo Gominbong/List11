@@ -5,11 +5,13 @@
 #include<ctype.h>
 void InitStack(Stack* stack) {
 	stack->top = NULL;
-	stack->tail = NULL;
 }
 
 int IsEmpty(Stack* stack) {
-	return stack->top == NULL;
+	if (stack->top == NULL)
+		return true;
+	else
+		return false;
 }
 
 void Push(Stack* stack, int data) {
@@ -46,9 +48,9 @@ int Peek(Stack* stack) {
 }
 int GetPriority(char op) {
 	switch (op) {
-	case '*':
+	case '*':return 5;
 	case '/': return 5;
-	case '+':
+	case '+':return 3;
 	case '-': return 3;
 	case '(': return 1;
 		
@@ -58,34 +60,40 @@ int GetPriority(char op) {
 int WhoPriority(char op1, char op2) {
 	int op1_Priority = GetPriority(op1);
 	int op2_Priority = GetPriority(op2);
-
+	
 	if (op1_Priority > op2_Priority) {
 		return 1;
 	}
 	else if (op1_Priority < op2_Priority) {
 		return -1;
 	}
-	else {
+	else{
 		return 0;
 	}
 }
 void PostfixConversion(char exp[]) {
 	Stack stack;
 	int ExpLen = strlen(exp)+1;
+	int count=0;
+	for (int i = 0; i <ExpLen; i++) {
+		if (exp[i]=='+' || exp[i] == '-' || exp[i] == '*' || exp[i] == '/') {
+			count += 2;
+		}
+	}
+	ExpLen = ExpLen + count;
 	char* ConvExp = (char*)malloc(ExpLen);
-	
 	int index = 0;
 	char comparison, popOp;
 
 	memset(ConvExp, 0, sizeof(char ) * ExpLen);
 	InitStack(&stack);
-
-	for (int i = 0; i < ExpLen; i++) {
+	for (int i = 0; i < ExpLen-count; i++) {
 		comparison = exp[i];
 		if (isdigit(comparison)) {   //저장된값이 숫자면 T
 			ConvExp[index++] = comparison;
 		}
 		else {
+			//ConvExp[index++] = ' ';
 			switch (comparison) {
 			case '(':
 				Push(&stack, comparison); break;
@@ -102,16 +110,21 @@ void PostfixConversion(char exp[]) {
 			case '-':
 			case '*':
 			case '/':
-				while (!IsEmpty(&stack) && WhoPriority(Peek(&stack), comparison) >= 0) {
+				while (!IsEmpty(&stack) && WhoPriority(Peek(&stack), comparison) > 0) {
 					ConvExp[index++] = Pop(&stack);
 				}
-				Push(&stack, comparison); break;
+				
+				Push(&stack, comparison);
+			
+				break;
 			}
 		}
 	}
 	while (!IsEmpty(&stack)) {
 		ConvExp[index++] = Pop(&stack);
 	}
+	
+
 	strcpy(exp, ConvExp);
 	free(ConvExp);
 }
@@ -119,14 +132,47 @@ void PostfixConversion(char exp[]) {
 int Calculate(char exp[]){
 	Stack stack;
 	int ExpLen = strlen(exp);
+
+	printf("%d", ExpLen);
 	char comparison, op1, op2;
 
 	InitStack(&stack);
-
+	char temp[10];
+	char* temp1;
+	char a[10];
+	char b[100];
+	int j = 0;
+	int num = 0;
 	for (int i = 0; i < ExpLen; i++) {
-		comparison = exp[i];
-		if (isdigit(comparison)) {
-			Push(&stack, comparison - '0');
+		//숫자 아스키인지 판단
+		
+		if (exp[i]==' ') {
+			//공백이면.
+			//저장한 값들을 가지고 값을 만들어서 atoi로 정수값으로 만듬.
+			num = atoi(b);
+			//b배열 초기화.
+			j = 0;
+		}
+		else if (exp[i] >= '0' || exp[i] <= '9')
+		{
+			b[j] = exp[i];
+			j++;
+			continue;
+		}
+		else {
+			comparison = exp[i];
+		}
+		//comparison = exp[i];
+		
+		//if (isdigit(comparison)) {
+//			a[i] = comparison;
+		//if ( isdigit(num))
+		if ( num>=0 )
+		{		
+
+			//Push(&stack, comparison - '0');
+			Push(&stack, num);
+			num = -1;
 		}
 		else {
 			op2 = Pop(&stack);
@@ -134,6 +180,7 @@ int Calculate(char exp[]){
 
 			switch (comparison) {
 			case '+':
+				printf("asdasd");
 				Push(&stack, op1 + op2); break;
 			case '-':
 				Push(&stack, op1 - op2); break;
