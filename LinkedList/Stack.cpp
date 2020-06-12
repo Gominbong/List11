@@ -35,6 +35,7 @@ int Pop(Stack* stack) {
 
 	stack->top = stack->top->next;
 	free(node);
+
 	return data;
 }
 
@@ -93,7 +94,7 @@ void PostfixConversion(char exp[]) {
 			ConvExp[index++] = comparison;
 		}
 		else {
-			//ConvExp[index++] = ' ';
+			ConvExp[index++] = ' ';
 			switch (comparison) {
 			case '(':
 				Push(&stack, comparison); break;
@@ -115,7 +116,6 @@ void PostfixConversion(char exp[]) {
 				}
 				
 				Push(&stack, comparison);
-			
 				break;
 			}
 		}
@@ -129,50 +129,28 @@ void PostfixConversion(char exp[]) {
 	free(ConvExp);
 }
 
-int Calculate(char exp[]){
+int Calculate(char exp[]) {
 	Stack stack;
 	int ExpLen = strlen(exp);
-
-	printf("%d", ExpLen);
-	char comparison, op1, op2;
-
+	char comparison;
+	int op1, op2;
 	InitStack(&stack);
-	char temp[10];
-	char* temp1;
-	char a[10];
 	char b[100];
-	int j = 0;
+	int k = 0;
 	int num = 0;
 	for (int i = 0; i < ExpLen; i++) {
-		//숫자 아스키인지 판단
-		
-		if (exp[i]==' ') {
-			//공백이면.
-			//저장한 값들을 가지고 값을 만들어서 atoi로 정수값으로 만듬.
-			num = atoi(b);
-			//b배열 초기화.
-			j = 0;
+		comparison = exp[i];
+		if (isdigit(comparison)) {
+			b[k++] = exp[i];
+			
 		}
-		else if (exp[i] >= '0' || exp[i] <= '9')
-		{
-			b[j] = exp[i];
-			j++;
-			continue;
-		}
-		else {
-			comparison = exp[i];
-		}
-		//comparison = exp[i];
-		
-		//if (isdigit(comparison)) {
-//			a[i] = comparison;
-		//if ( isdigit(num))
-		if ( num>=0 )
-		{		
-
-			//Push(&stack, comparison - '0');
-			Push(&stack, num);
-			num = -1;
+		else if (exp[i]==' ') {
+			Push(&stack, atoi(b));
+				if (exp[i + 1] ==' ') {
+					i++;
+				}
+			memset(b, 0, 100);
+			k = 0;
 		}
 		else {
 			op2 = Pop(&stack);
@@ -180,10 +158,9 @@ int Calculate(char exp[]){
 
 			switch (comparison) {
 			case '+':
-				printf("asdasd");
-				Push(&stack, op1 + op2); break;
+				Push(&stack, op1+ op2); break;
 			case '-':
-				Push(&stack, op1 - op2); break;
+				Push(&stack, op1 - op2 ); break;
 			case '*':
 				Push(&stack, op1 * op2); break;
 			case '/':
