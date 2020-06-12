@@ -11,7 +11,7 @@ int IsEmpty(Stack* stack) {
 	if (stack->top == NULL)
 		return true;
 	else
-		return false;
+		return false; 
 }
 
 void Push(Stack* stack, int data) {
