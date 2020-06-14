@@ -93,7 +93,7 @@ void PostfixConversion(char exp[]) {
 			ConvExp[index++] = comparison;
 		}
 		else if (comparison == '(' || comparison == ')') {
-			printf("hi");
+
 		}
 		else{
 			ConvExp[index++] = ' ';
