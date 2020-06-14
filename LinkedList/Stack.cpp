@@ -13,16 +13,15 @@ int IsEmpty(Stack* stack) {
 	else
 		return false; 
 }
-
-void Push(Stack* stack, int data) {
+void Push(Stack* stack, float data) {
 	Node_stack* NewNode = (Node_stack*)malloc(sizeof(Node_stack));
 	NewNode->data = data;
 	NewNode->next = stack->top;
 	stack->top = NewNode;
 }
 
-int Pop(Stack* stack) {
-	int data;
+float Pop(Stack* stack) {
+	float data;
 	Node_stack* node;
 
 	if (IsEmpty(stack)) {
@@ -33,9 +32,8 @@ int Pop(Stack* stack) {
 	data = stack->top->data;
 	node = stack->top;
 
-	stack->top = stack->top->next;
+	stack->top= stack->top->next;
 	free(node);
-
 	return data;
 }
 
@@ -44,17 +42,17 @@ int Peek(Stack* stack) {
 		printf("stack memory error");
 		exit(-1);
 	}
+
 	return stack->top->data;
 	
 }
 int GetPriority(char op) {
 	switch (op) {
-	case '*':return 5;
+	case '*':
 	case '/': return 5;
-	case '+':return 3;
+	case '+':
 	case '-': return 3;
 	case '(': return 1;
-		
 	}
 	return -1;
 }
@@ -72,6 +70,7 @@ int WhoPriority(char op1, char op2) {
 		return 0;
 	}
 }
+
 void PostfixConversion(char exp[]) {
 	Stack stack;
 	int ExpLen = strlen(exp)+1;
@@ -93,11 +92,15 @@ void PostfixConversion(char exp[]) {
 		if (isdigit(comparison)) {   //저장된값이 숫자면 T
 			ConvExp[index++] = comparison;
 		}
-		else {
+		else if (comparison == '(' || comparison == ')') {
+			printf("hi");
+		}
+		else{
 			ConvExp[index++] = ' ';
 			switch (comparison) {
 			case '(':
-				Push(&stack, comparison); break;
+				Push(&stack, comparison); 
+				break;
 			case ')':
 				while (1) {
 					popOp = Pop(&stack);
@@ -106,12 +109,12 @@ void PostfixConversion(char exp[]) {
 					}
 					ConvExp[index++] = popOp;
 				} break;
-
+				
 			case '+':
 			case '-':
 			case '*':
 			case '/':
-				while (!IsEmpty(&stack) && WhoPriority(Peek(&stack), comparison) > 0) {
+				while (!IsEmpty(&stack) && WhoPriority(Peek(&stack), comparison) >= 0) {
 					ConvExp[index++] = Pop(&stack);
 				}
 				
@@ -126,26 +129,27 @@ void PostfixConversion(char exp[]) {
 	
 
 	strcpy(exp, ConvExp);
+	printf("%d", strlen(exp));
 	free(ConvExp);
 }
 
-int Calculate(char exp[]) {
+float Calculate(char exp[]) {
 	Stack stack;
 	int ExpLen = strlen(exp);
 	char comparison;
-	int op1, op2;
+	float op1=0, op2=0;
 	InitStack(&stack);
 	char b[100];
 	int k = 0;
 	int num = 0;
-	for (int i = 0; i < ExpLen; i++) {
+	for (int i = 0; i <ExpLen; i++) {
 		comparison = exp[i];
 		if (isdigit(comparison)) {
 			b[k++] = exp[i];
 			
 		}
 		else if (exp[i]==' ') {
-			Push(&stack, atoi(b));
+			Push(&stack, (float)atof(b));
 				if (exp[i + 1] ==' ') {
 					i++;
 				}
@@ -158,7 +162,7 @@ int Calculate(char exp[]) {
 
 			switch (comparison) {
 			case '+':
-				Push(&stack, op1+ op2); break;
+				Push(&stack, op1 + op2 ); break;
 			case '-':
 				Push(&stack, op1 - op2 ); break;
 			case '*':
@@ -179,7 +183,7 @@ void Start1() {
 		fgets(str, sizeof(str), stdin);
 		PostfixConversion(str);
 		printf("후위식 : %s  \n", str);
-		printf("후위식 계산 : %d \n\n\n", Calculate(str));
+		printf("후위식 계산 : %f \n\n\n", Calculate(str));
 	}
 	
 }
