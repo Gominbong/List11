@@ -42,7 +42,9 @@ int Peek(Stack* stack) {
 		printf("stack memory error");
 		exit(-1);
 	}
-
+	if (stack->top->data == '(') {
+		return 0;
+	}
 	return stack->top->data;
 	
 }
@@ -59,7 +61,7 @@ int GetPriority(char op) {
 int WhoPriority(char op1, char op2) {
 	int op1_Priority = GetPriority(op1);
 	int op2_Priority = GetPriority(op2);
-	
+
 	if (op1_Priority > op2_Priority) {
 		return 1;
 	}
@@ -76,7 +78,7 @@ void PostfixConversion(char exp[]) {
 	int ExpLen = strlen(exp)+1;
 	int count=0;
 	for (int i = 0; i <ExpLen; i++) {
-		if (exp[i]=='+' || exp[i] == '-' || exp[i] == '*' || exp[i] == '/') {
+		if (exp[i]=='+' || exp[i] == '-' || exp[i] == '*' || exp[i] == '/' || exp[i]=='(' || exp[i] ==')' ) {
 			count += 2;
 		}
 	}
@@ -84,32 +86,31 @@ void PostfixConversion(char exp[]) {
 	char* ConvExp = (char*)malloc(ExpLen);
 	int index = 0;
 	char comparison, popOp;
-
+	int a;
 	memset(ConvExp, 0, sizeof(char ) * ExpLen);
 	InitStack(&stack);
-	for (int i = 0; i < ExpLen-count; i++) {
+	for (int i = 0; i < ExpLen - count; i++) {
 		comparison = exp[i];
 		if (isdigit(comparison)) {   //저장된값이 숫자면 T
 			ConvExp[index++] = comparison;
 		}
-		else if (comparison == '(' || comparison == ')') {
-
-		}
 		else{
-			ConvExp[index++] = ' ';
+		     if ( comparison== '(' ) {
+				Push(&stack, comparison);
+             }		
+			 
 			switch (comparison) {
-			case '(':
-				Push(&stack, comparison); 
-				break;
 			case ')':
 				while (1) {
 					popOp = Pop(&stack);
 					if (popOp == '(') {
+						
 						break;
 					}
+					ConvExp[index++] = ' ';
 					ConvExp[index++] = popOp;
 				} break;
-				
+			
 			case '+':
 			case '-':
 			case '*':
@@ -117,13 +118,15 @@ void PostfixConversion(char exp[]) {
 				while (!IsEmpty(&stack) && WhoPriority(Peek(&stack), comparison) >= 0) {
 					ConvExp[index++] = Pop(&stack);
 				}
-				
+				ConvExp[index++] = ' ';
 				Push(&stack, comparison);
+				
 				break;
 			}
 		}
 	}
 	while (!IsEmpty(&stack)) {
+		ConvExp[index++] = ' ';
 		ConvExp[index++] = Pop(&stack);
 	}
 	
@@ -142,33 +145,31 @@ float Calculate(char exp[]) {
 	char b[100];
 	int k = 0;
 	int num = 0;
-	for (int i = 0; i <ExpLen; i++) {
+	
+	for (int i = 0; 20; i++) {
 		comparison = exp[i];
 		if (isdigit(comparison)) {
 			b[k++] = exp[i];
-			
+			if (exp[i + 1] == ' ') {
+				Push(&stack, atof(b));
+				memset(b, 0, 100);
+				k = 0;
+				i++;
+			}
 		}
-		else if (exp[i]==' ') {
-			Push(&stack, (float)atof(b));
-				if (exp[i + 1] ==' ') {
-					i++;
-				}
-			memset(b, 0, 100);
-			k = 0;
-		}
-		else {
+    	else{
 			op2 = Pop(&stack);
 			op1 = Pop(&stack);
 
 			switch (comparison) {
 			case '+':
-				Push(&stack, op1 + op2 ); break;
+				Push(&stack, op1 + op2); if(exp[i] ==' ') break;
 			case '-':
-				Push(&stack, op1 - op2 ); break;
+				Push(&stack, op1 - op2); i++; break;
 			case '*':
-				Push(&stack, op1 * op2); break;
+				Push(&stack, op1 * op2); i++; break;
 			case '/':
-				Push(&stack, op1 / op2); break;
+				Push(&stack, op1 / op2); i++; break;
 			}
 		}
 	}
