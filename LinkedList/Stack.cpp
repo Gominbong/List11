@@ -110,12 +110,10 @@ void PostfixConversion(char exp[]) {
 
 				while (flag) {
 					popOp = Pop(&stack);
-					
 					if (popOp == '(') {
 						ConvExp[index++] = ' ';
 						break;
 					}
-					
 					ConvExp[index++] = ' ';
 					ConvExp[index++] = popOp;
 				} break;
