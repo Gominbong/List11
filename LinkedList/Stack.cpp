@@ -101,7 +101,7 @@ void PostfixConversion(char exp[]) {
              }		
 			switch (comparison) {
 			case ')':
-				if (stack.top->data = ')') {
+				if (stack.top->data =='(' ) {
 					ConvExp[index++] = '*';
 					Pop(&stack);
 					flag = 0;
