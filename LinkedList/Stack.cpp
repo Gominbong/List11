@@ -13,6 +13,7 @@ int IsEmpty(Stack* stack) {
 	else
 		return false; 
 }
+
 void Push(Stack* stack, float data) {
 	Node_stack* NewNode = (Node_stack*)malloc(sizeof(Node_stack));
 	NewNode->data = data;
@@ -28,7 +29,6 @@ float Pop(Stack* stack) {
 		printf("stack memory erro1r");
 		exit(-1);
 	}
-
 	data = stack->top->data;
 	node = stack->top;
 
@@ -46,8 +46,8 @@ int Peek(Stack* stack) {
 		return 0;
 	}
 	return stack->top->data;
-	
 }
+
 int GetPriority(char op) {
 	switch (op) {
 	case '*':
@@ -98,13 +98,12 @@ void PostfixConversion(char exp[]) {
 		     if ( comparison== '(' ) {
 				Push(&stack, comparison);
              }		
-			 
 			switch (comparison) {
 			case ')':
 				while (1) {
 					popOp = Pop(&stack);
 					if (popOp == '(') {
-						
+						ConvExp[index++] = ' ';
 						break;
 					}
 					ConvExp[index++] = ' ';
@@ -116,21 +115,18 @@ void PostfixConversion(char exp[]) {
 			case '*':
 			case '/':
 				while (!IsEmpty(&stack) && WhoPriority(Peek(&stack), comparison) >= 0) {
+					ConvExp[index++] = ' ';
 					ConvExp[index++] = Pop(&stack);
 				}
 				ConvExp[index++] = ' ';
 				Push(&stack, comparison);
-				
 				break;
 			}
 		}
 	}
 	while (!IsEmpty(&stack)) {
-		ConvExp[index++] = ' ';
 		ConvExp[index++] = Pop(&stack);
 	}
-	
-
 	strcpy(exp, ConvExp);
 	printf("%d", strlen(exp));
 	free(ConvExp);
@@ -146,7 +142,7 @@ float Calculate(char exp[]) {
 	int k = 0;
 	int num = 0;
 	
-	for (int i = 0; 20; i++) {
+	for (int i = 0; i<ExpLen; i++) {
 		comparison = exp[i];
 		if (isdigit(comparison)) {
 			b[k++] = exp[i];
@@ -156,20 +152,31 @@ float Calculate(char exp[]) {
 				k = 0;
 				i++;
 			}
+			else if ( !isdigit(exp[i + 1]) ) {
+				Push(&stack, atof(b));
+					memset(b, 0, 100);
+					k = 0;
+			}
+		}
+		else if (exp[i]==' ') {
+			Push(&stack, atof(b));
+			memset(b, 0, 100);
+			k = 0;
 		}
     	else{
+			
 			op2 = Pop(&stack);
 			op1 = Pop(&stack);
 
 			switch (comparison) {
 			case '+':
-				Push(&stack, op1 + op2); if(exp[i] ==' ') break;
+				Push(&stack, op1 + op2); while(exp[i+1] == ' ') { i++; } break;
 			case '-':
-				Push(&stack, op1 - op2); i++; break;
+				Push(&stack, op1 - op2); while (exp[i + 1] == ' ') { i++; } break;
 			case '*':
-				Push(&stack, op1 * op2); i++; break;
-			case '/':
-				Push(&stack, op1 / op2); i++; break;
+				Push(&stack, op1 * op2); while (exp[i + 1] == ' ') { i++; } break;
+			case '/': 
+				Push(&stack, op1 / op2); while (exp[i + 1] == ' ') { i++; } break;
 			}
 		}
 	}
@@ -177,7 +184,6 @@ float Calculate(char exp[]) {
 }
 
 void Start1() {
-
 	char str[100];
 	while (1) {
 		printf("후위식 바꿀식 : ");
@@ -186,5 +192,4 @@ void Start1() {
 		printf("후위식 : %s  \n", str);
 		printf("후위식 계산 : %f \n\n\n", Calculate(str));
 	}
-	
 }
