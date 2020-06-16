@@ -107,7 +107,6 @@ void PostfixConversion(char exp[]) {
 					flag = 0;
 					break;
 				}
-
 				while (flag) {
 					popOp = Pop(&stack);
 					if (popOp == '(') {
@@ -117,7 +116,6 @@ void PostfixConversion(char exp[]) {
 					ConvExp[index++] = ' ';
 					ConvExp[index++] = popOp;
 				} break;
-			
 			case '+':
 			case '-':
 			case '*':
@@ -172,10 +170,8 @@ float Calculate(char exp[]) {
 			k = 0;
 		}
     	else{
-			
 			op2 = Pop(&stack);
 			op1 = Pop(&stack);
-
 			switch (comparison) {
 			case '+':
 				Push(&stack, op1 + op2); while(exp[i+1] == ' ') { i++; } break;
