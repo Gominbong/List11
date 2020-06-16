@@ -86,7 +86,7 @@ void PostfixConversion(char exp[]) {
 	char* ConvExp = (char*)malloc(ExpLen);
 	int index = 0;
 	char comparison, popOp;
-	int a;
+	int flag = 1;
 	memset(ConvExp, 0, sizeof(char ) * ExpLen);
 	InitStack(&stack);
 	for (int i = 0; i < ExpLen - count; i++) {
@@ -96,16 +96,26 @@ void PostfixConversion(char exp[]) {
 		}
 		else{
 		     if ( comparison== '(' ) {
+				ConvExp[index++] = ' ';
 				Push(&stack, comparison);
              }		
 			switch (comparison) {
 			case ')':
-				while (1) {
+				if (stack.top->data = ')') {
+					ConvExp[index++] = '*';
+					Pop(&stack);
+					flag = 0;
+					break;
+				}
+
+				while (flag) {
 					popOp = Pop(&stack);
+					
 					if (popOp == '(') {
 						ConvExp[index++] = ' ';
 						break;
 					}
+					
 					ConvExp[index++] = ' ';
 					ConvExp[index++] = popOp;
 				} break;
