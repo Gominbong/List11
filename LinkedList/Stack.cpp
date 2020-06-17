@@ -137,7 +137,6 @@ void PostfixConversion(char exp[]) {
 		ConvExp[index++] = Pop(&stack);
 	}
 	strcpy(exp, ConvExp);
-	printf("%d", strlen(exp));
 	free(ConvExp);
 }
 
