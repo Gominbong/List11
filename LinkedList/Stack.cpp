@@ -78,8 +78,11 @@ void PostfixConversion(char exp[]) {
 	int ExpLen = strlen(exp)+1;
 	int count=0;
 	for (int i = 0; i <ExpLen; i++) {
-		if (exp[i]=='+' || exp[i] == '-' || exp[i] == '*' || exp[i] == '/' || exp[i]=='(' || exp[i] ==')' ) {
+		if (exp[i] == '.' || exp[i] == '+' || exp[i] == '-' || exp[i] == '*' || exp[i] == '/' || exp[i]=='(' || exp[i] ==')' ) {
 			count += 2;
+		}
+		if (exp[i] == '.') {
+			count += 1;
 		}
 	}
 	ExpLen = ExpLen + count;
@@ -91,7 +94,7 @@ void PostfixConversion(char exp[]) {
 	InitStack(&stack);
 	for (int i = 0; i < ExpLen - count; i++) {
 		comparison = exp[i];
-		if (isdigit(comparison)) {   //저장된값이 숫자면 T
+		if (isdigit(comparison) || comparison=='.' ) {   //저장된값이 숫자면 T
 			ConvExp[index++] = comparison;
 		}
 		else{
@@ -150,7 +153,7 @@ float Calculate(char exp[]) {
 	
 	for (int i = 0; i<ExpLen; i++) {
 		comparison = exp[i];
-		if (isdigit(comparison)) {
+		if (isdigit(comparison) || exp[i]=='.' ) {
 			b[k++] = exp[i];
 			if (exp[i + 1] == ' ') {
 				Push(&stack, atof(b));
@@ -159,12 +162,14 @@ float Calculate(char exp[]) {
 				i++;
 			}
 			else if ( !isdigit(exp[i + 1]) ) {
-				Push(&stack, atof(b));
+				if (exp[i + 1] != '.') {
+					Push(&stack, atof(b));
 					memset(b, 0, 100);
 					k = 0;
+				}
 			}
 		}
-		else if (exp[i]==' ') {
+		else if (exp[i]==' ' || exp[i]=='.') {
 			Push(&stack, atof(b));
 			memset(b, 0, 100);
 			k = 0;
