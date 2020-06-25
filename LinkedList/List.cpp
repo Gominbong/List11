@@ -7,7 +7,7 @@ Node* Head = (Node*)malloc(sizeof(Node));
 Node* Tail = (Node*)malloc(sizeof(Node));
 Node* Temp = NULL;
 Node* Temp1 = NULL;
-int a = 50;
+
 void InitList() {
 	Head->next = Tail;
 	Tail->next = NULL;
