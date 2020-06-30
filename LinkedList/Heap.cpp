@@ -1,15 +1,18 @@
 #include<stdio.h>
 #include"Heap.h"
-void HeapInit(heap* ph) {
+int DataPriorityComp(char ch1, char ch2);
+
+void HeapInit(heap* ph, PriorityComp pc) {
 	ph->numberofdata = 0;
+	ph->comp = pc;
 }
 
 int HeapIsEmpty(heap* ph) {
 	if (ph->numberofdata == 0) {
-		return true;
+		return TRUE;
 	}
 	else {
-		return false;
+		return FALSE;
 	}
 }
 
@@ -33,8 +36,8 @@ int GetHighPriorityindex(heap* ph, int index) {
 		return GetLeftChildindex(index);
 	}
 	else {
-		if (ph->heapArr[GetLeftChildindex(index)].Priority >
-			ph->heapArr[GetRightChildindex(index)].Priority) {
+		if (ph->comp(ph->heapArr[GetLeftChildindex(index)], 
+			ph->heapArr[GetRightChildindex(index)]) < 0) {
 			return GetRightChildindex(index);
 		}
 		else {
@@ -43,11 +46,11 @@ int GetHighPriorityindex(heap* ph, int index) {
 	}
 }
 
-void Heapinsert(heap* ph, char data, int priority) {
+void Heapinsert(heap* ph, char data) {
 	int index = ph->numberofdata + 1;
-	heapElem NewHeapElem = { priority,data };
+
 	while (index != 1) {
-		if (priority < (ph->heapArr[GetParentindex(index)].Priority)) {
+		if (ph->comp(data, ph->heapArr[GetParentindex(index)]) > 0) {
 			ph->heapArr[index] = ph->heapArr[GetParentindex(index)];
 			index = GetParentindex(index);
 		}
@@ -55,37 +58,45 @@ void Heapinsert(heap* ph, char data, int priority) {
 			break;
 		}
 	}
-	ph->heapArr[index] = NewHeapElem;
+	ph->heapArr[index] = data;
 	ph->numberofdata += 1;
+
 }
 
 char HeapDelete(heap* ph) {
-	char ResultData = (ph->heapArr[1]).data;
-	heapElem lastElem = ph->heapArr[ph->numberofdata];
-	int ParentIndex = 1;
-	int ChildIndex;
+	char ResultData = ph->heapArr[1];
+	char LastElem = ph->heapArr[ph->numberofdata];
+	int Parentindex = 1;
+	int Childindex;
 
-	while (ChildIndex = GetHighPriorityindex(ph,ParentIndex)) {
-		if (lastElem.Priority <= ph->heapArr[ChildIndex].Priority) {
+	while (Childindex = GetHighPriorityindex(ph, Parentindex)) {
+		if (ph->comp(LastElem, ph->heapArr[Childindex]) >= 0) {
 			break;
 		}
-		ph->heapArr[ParentIndex] = ph->heapArr[ChildIndex];
-		ParentIndex = ChildIndex;
+		ph->heapArr[Parentindex] = ph->heapArr[Childindex];
+		Parentindex = Childindex;
 	}
-	ph->heapArr[ParentIndex] = lastElem;
+	ph->heapArr[Parentindex] = LastElem;
 	ph->numberofdata -= 1;
 	return ResultData;
 }
 
+int DataPriorityComp(char ch1, char ch2) {
+	return ch2 - ch1;
+}
+
 void Start3() {
 	heap heap;
-	HeapInit(&heap);
+	HeapInit(&heap,DataPriorityComp);
 
-	Heapinsert(&heap, 'A', 9);
-	Heapinsert(&heap, 'B', 8);
-	Heapinsert(&heap, 'C', 7);
-	Heapinsert(&heap, 'D', 6);
-	Heapinsert(&heap, 'E', 5);
+	Heapinsert(&heap, 'A');
+	Heapinsert(&heap, 'B');
+	Heapinsert(&heap, 'C');
+	Heapinsert(&heap, 'A');
+	Heapinsert(&heap, 'B');
+	Heapinsert(&heap, 'C');
+
+
 	while (!HeapIsEmpty(&heap)) {
 		printf("입력데이터 : %c \n", HeapDelete(&heap) );
 	}

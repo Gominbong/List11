@@ -4,14 +4,13 @@
 #define TRUE 1
 #define FALSE 0
 void Start3();
-typedef struct HeapElem {
-	int Priority;
-	char data;
-} heapElem;
+
+typedef int PriorityComp(char d1, char d2);
 
 typedef struct Heap {
+	PriorityComp* comp;
 	int numberofdata;
-	heapElem heapArr[100];
+	char heapArr[100];
 }heap;
 
 #endif
