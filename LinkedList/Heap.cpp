@@ -39,7 +39,7 @@ int GetHighPriorityindex(heap* ph, int index) {
 		if (ph->comp(ph->heapArr[GetLeftChildindex(index)], 
 			ph->heapArr[GetRightChildindex(index)]) < 0) {
 			return GetRightChildindex(index);
-		}
+		}  
 		else {
 			return GetLeftChildindex(index);
 		}
