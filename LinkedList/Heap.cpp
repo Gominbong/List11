@@ -9,7 +9,7 @@ void HeapInit(heap* ph, PriorityComp pc) {
 
 int HeapIsEmpty(heap* ph) {
 	if (ph->numberofdata == 0) {
-		return TRUE;
+		return TRUE;  
 	}
 	else {
 		return FALSE;
