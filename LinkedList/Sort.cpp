@@ -2,7 +2,7 @@
 #include "UsefulHeap.h"
 
 int PriComp(int n1, int n2){
-	return n2 - n1;
+	return n2 - n1;  
 }
 
 void HeapSort(int arr[], int n, PriorityComp pc){
