@@ -85,6 +85,9 @@ int DataPriorityComp(char ch1, char ch2) {
 	return ch2 - ch1;
 }
 
+
+
+
 void Start3() {
 	heap heap;
 	HeapInit(&heap,DataPriorityComp);

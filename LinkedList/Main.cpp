@@ -2,9 +2,11 @@
 #include"List.h"
 #include"Tree.h"
 #include"Heap.h"
+#include"Sort.h"
 int main(void) {
 	//Start();  //府胶飘
 	//Start1();  //胶琶
 	//Start2();  //飘府
-	Start3();  //赛
+	//Start3();  //赛
+	Start4(); //赛沥纺
 }
